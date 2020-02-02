@@ -1,0 +1,28 @@
+{% extends "attendance/base.html" %}
+{% block content %}
+<style>
+    .btn{
+        margin-right: 1em;
+    }
+</style>
+
+<h1>Course Detail for {{ detail.name }}</h1>
+<p>Course id : {{ detail.id }}</p>
+<p><b>About :</b> {{ detail.detail }}</p>
+<a href="{% url 'check_in' id=detail.id %}">
+    <div class="btn btn-primary">Check in</div>
+</a>
+<hr>
+<div class="row">
+    <span class="btn btn-warning">
+        Total Students <span class="badge badge-light">{{ detail.std_amount }}</span>
+    </span>
+    <span class="btn btn-success">
+        Coming <span class="badge badge-light">{{  detail.std_come }}</span>
+    </span>
+    <span class="btn btn-danger">
+        Absent <span class="badge badge-light">{{ detail.std_absent }}</span>
+    </span>
+</div>
+{% endblock content %}
+

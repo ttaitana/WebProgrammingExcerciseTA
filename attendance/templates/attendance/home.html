@@ -1,0 +1,53 @@
+    {% extends "attendance/base.html" %}
+    {% block content %}
+    <div class="container">
+        <h1>Welcome Back {{ name }}</h1>
+        <h2>Today is {{ day }}</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Detail</th>
+                    <th scope="col">Check in</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in subject%}
+                <tr>
+                    <td>{{ i.time }}</td>
+                    <td>{{ i.subject }}</td>
+                    <td>
+                        <a href="{% url 'course_detail' id=i.id %}">
+                            <div class="btn btn-warning" id="{{i.id}}">View detail</div>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'check_in' id=i.id %}">
+                            <div class="btn btn-primary" id="sub_{{i.id}}">Check in</div>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

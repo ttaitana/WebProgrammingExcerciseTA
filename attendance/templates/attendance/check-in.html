@@ -1,0 +1,11 @@
+{% extends "attendance/base.html" %}
+{% load static %}
+{% block content %}
+<a href="{% url 'home' %}">back to home page</a>
+<div class="text-center">
+    <h1>Check in</h1>
+    <p>Welcome to {{ subject }} {{ id }}</p>
+    <p class="font-weight-lighter">Please scan QR code to check in to class</p>
+    <img class="qrcode" src="{% static "image/qrcode.png" %}" alt="qrcode" width="20%">
+</div>
+{% endblock content %}

@@ -14,9 +14,12 @@ def home(req):
     day_of_week = calendar.day_name[my_date.weekday()]
     print(my_date)
     context = dict()
-    context['name'] = timetable['user'][0]['name']
-    context['day'] = day_of_week
-    context['subject'] = timetable['user'][0]['table']['Monday']
+    user = 'Jack'
+    for i in timetable['user']:
+        if(i['name'] == user):
+            context['name'] = timetable['user'][0]['name']
+            context['day'] = day_of_week
+            context['subject'] = timetable['user'][0]['table'][day_of_week]
     return render(req, template_name='attendance/home.html', context=context)
 
 def course_detail(req, id):

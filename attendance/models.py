@@ -46,7 +46,23 @@ timetable = {
                         "id" : "06016800"
                     }
                 ],
-                "Tuseday": [
+                "Tuesday": [
+                    {
+                        "time": "9.00",
+                        "subject": "Chinese",
+                        "id" : '04015200'
+                    }
+                ],
+                "Wednesday": [
+                ],
+                "Thurseday": [
+                    {
+                        "time": "9.00",
+                        "subject": "Web Programming",
+                        "id" : '06016900'
+                    }
+                ],
+                "Friday": [
                     {
                         "time": "9.00",
                         "subject": "Chinese",

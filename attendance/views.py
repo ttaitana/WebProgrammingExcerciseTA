@@ -1,34 +1,54 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
-from attendance.models import timetable, course
-
-import json
-from datetime import date
-import calendar
+from . import models
 
 # Create your views here.
+def index(request):
+    """
+        Index page - หน้าจอรายการวิชาที่มีการสอนทั้งหมด
+    """
+    classes = models.classes
+    courses = models.courses
+    for cl in classes:
+        cl['course'] = [co for co in courses if co['id'] == cl['course_id']][0]
+    
+    context = {
+        'classes': classes
+    }
+    return render(request, 'attendance/home.html', context=context)
 
-def home(req):
-    my_date = date.today()
-    day_of_week = calendar.day_name[my_date.weekday()]
-    print(my_date)
-    context = dict()
-    user = 'Jack'
-    for i in timetable['user']:
-        if(i['name'] == user):
-            context['name'] = timetable['user'][0]['name']
-            context['day'] = day_of_week
-            context['subject'] = timetable['user'][0]['table'][day_of_week]
-    return render(req, template_name='attendance/home.html', context=context)
+def detail(request, class_id):
+    """
+        Class detail page – เมื่อกด link จากหน้า Index page มาจะได้หน้าจอแสดงรายละเอียดของแต่ละวิชา 
+        (วิชานี้สอนอะไร, มีจำนวนนักเรียนกี่คน, มีคนมาเรียน และขาดกี่คน)
+    """
+    courses = models.courses
+    classes = models.classes
+    attends = models.attendance
 
-def course_detail(req, id):
-    context = dict()
-    context['detail'] = course[id]
-    return render(req, template_name='attendance/course_detail.html', context=context)
+    sel_class = [cl for cl in classes if cl['id'] == class_id][0]
+    sel_course = [co for co in courses if co['id'] == sel_class['course_id']][0]
+    sel_attend = [att for att in attends if att['class_id'] == class_id][0]
+    
+    context = {
+        'sel_class': sel_class,
+        'sel_course': sel_course,
+        'sel_attend': sel_attend
+    }
+    return render(request, 'attendance/course_detail.html', context=context)
 
-def check_in(req, id):
-    context = dict()
-    context['subject'] = course[id]['name']
-    context['id'] = id
-    return render(req, template_name='attendance/check-in.html', context=context)
+def check_in(request, class_id):
+    """
+        Check-in page - เมื่อกด link จากหน้า Index page หรือ Course detail page ก็จะพบหน้าจอที่มีชื่อคอร์สอยู่เป็นหัวข้อ 
+        และมี QR code (เป็นรูป static หามาจาก Internet ไม่ต้อง auto-generate)
+    """
+    courses = models.courses
+    classes = models.classes
+
+    sel_class = [cl for cl in classes if cl['id'] == class_id][0]
+    sel_course = [co for co in courses if co['id'] == sel_class['course_id']][0]
+    context = {
+        'sel_class': sel_class,
+        'sel_course': sel_course
+    }
+    return render(request, 'attendance/check-in.html', context=context)
